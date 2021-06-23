@@ -1,0 +1,25 @@
+version: "3.9"
+
+networks: 
+  produto-network:
+    driver: bridge
+
+services:
+  teste-mongodb:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - produto-network
+    
+  produto-api:
+    build: .
+    environment:
+      DB_HOST: teste-mongodb
+    ports:
+      - "8080:8080"
+    networks:
+      - produto-network
+    depends_on:
+      - teste-mongodb 
+
